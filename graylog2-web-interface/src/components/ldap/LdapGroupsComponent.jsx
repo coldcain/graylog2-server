@@ -1,6 +1,5 @@
 import React from 'react';
 import Immutable from 'immutable';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Row, Col, Input, Panel, Button } from 'react-bootstrap';
 import naturalSort from 'javascript-natural-sort';
 
@@ -18,6 +17,7 @@ const LdapGroupsStore = StoreProvider.getStore('LdapGroups');
 const LdapGroupsComponent = React.createClass({
   propTypes: {
     onCancel: React.PropTypes.func.isRequired,
+    onShowConfig: React.PropTypes.func.isRequired,
   },
 
   getInitialState() {
@@ -52,6 +52,11 @@ const LdapGroupsComponent = React.createClass({
   _saveMapping(event) {
     event.preventDefault();
     LdapGroupsActions.saveMapping(this.state.mapping.toJS());
+  },
+
+  _onShowConfig(event) {
+    event.preventDefault();
+    this.props.onShowConfig();
   },
 
   _isLoading() {
@@ -95,7 +100,7 @@ const LdapGroupsComponent = React.createClass({
       return (
         <p>
           No LDAP/Active Directory groups found. Please verify that your{' '}
-          <LinkContainer to={Routes.SYSTEM.AUTHENTICATION.PROVIDERS.provider('legacy-ldap')}><a>LDAP group mapping</a></LinkContainer>{' '}
+          <a href="#" onClick={this._onShowConfig}>LDAP group mapping</a>{' '}
           settings are correct.
         </p>
       );
